@@ -27,19 +27,19 @@ class Queue {
 }
 
 class Node {
-  constructor(square, previous) {
+  constructor(square, previous = null) {
     this.square = square;
-    this.previous = previous || null;
+    this.previous = previous;
     this.moves = null;
   }
 }
 
 class Board {
-  constructor() {
-    this.start = null;
-    this.end = null;
+  constructor(start = null, end = null) {
+    this.start = start;
+    this.end = end ;
     this.tree = {};
-    this.board = [...Array(8)].map(() => Array(8).fill(0)); // contains places that the knight have already visited
+    this.board = [...Array(8)].map(() => Array(8).fill(0)); // contains places that the knight has already visited
     this.possibleMoves = [
       [2, 1],
       [2, -1],
@@ -68,6 +68,8 @@ class Board {
 
   findPath() {
     if (this.start == null && this.end == null) return;
+    if(Object.keys(this.tree).length != 0 ) this.reset(); // Delete and optimize don't evaluate on each invocation
+
     this.tree = new Node(this.start);
     const queue = new Queue();
     queue.enqueue(this.tree);
@@ -95,40 +97,18 @@ class Board {
     return path;
   }
 
-  // getPossibleMoves(x, y, moves = new Queue()) {
-  //   for (let i = 0; i < 8; i++) {
-  //     const newX = x + this.possibleMoves[i][0];
-  //     const newY = y + this.possibleMoves[i][1];
-  //     if (0 <= newX && newX <= 7 && 0 <= newY && newY <= 7) {
-  //       moves.enqueue([newX, newY]);
-  //     }
-  //   }
-
-  //   return moves;
-  // }
-
-  // knightMoves() {
-  //   if (this.start == null && this.end == null) return;
-
-  //   const moves = new Queue();
-  //   moves.enqueue(this.start);
-  //   while (!moves.isEmpty) {
-  //     const square = moves.dequeue();
-  //     if (square[0] === this.end[0] && square[1] === this.end[1]) break;
-  //     const moves = this.getPossibleMoves(square[0], square[1]);
-  //     moves.forEach(move => {
-
-  //     });
-  //   }
-
-  //   return [];
-  // }
+  setPosition(start, end){
+    this.start = start;
+    this.end = end;
+    this.reset();
+  }
+  
+  reset(){
+    this.tree = {};
+    this.board = [...Array(8)].map(() => Array(8).fill(0));
+  }
 }
 
-const board = new Board();
-board.start = [0, 0];
-board.end = [12, 8];
+const board = new Board([0, 0],[0, 7]);
 console.log(board.findPath());
-// console.log(board.knightMoves([0, 0], [3, 3]));
-
-//Dijkstra's algorithm
+console.log(board.findPath());
