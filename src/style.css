@@ -1,0 +1,111 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #f3f4f6;
+  --secondary: rgb(50, 50, 50);
+  --tertiary: #1f2a50;
+
+  --margin-top: 30px;
+
+  font-family: "Roboto", sans-serif;
+  user-select: none;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  background-color: var(--primary);
+}
+
+main {
+  width: 1200px;
+  margin: var(--margin-top) auto;
+  display: flex;
+  justify-content: space-around;
+}
+
+h1 {
+  text-align: center;
+  font-weight: normal;
+}
+
+.chess-board_container{
+  margin-top: var(--margin-top);
+}
+
+.chess-board {
+  display: grid;
+  grid-template: repeat(8, 1fr) / repeat(8, 1fr);
+  width: 500px;
+  height: 500px;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
+}
+
+.chess-board_square--white {
+  background-color: var(--primary);
+}
+
+.chess-board_square--black {
+  background-color: var(--secondary);
+}
+
+/* Controls */
+.controls {
+  display: grid;
+  align-items: center;
+  align-content: center;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.controls :is(button, h1) {
+  grid-column: span 2;
+}
+
+input[type="radio"] {
+  appearance: none;
+  display: none;
+}
+
+/* Button */
+button,
+label {
+  background-color: var(--primary);
+  border: 1px solid var(--secondary);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 5px;
+  outline: 0;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+:is(button, label):focus {
+  color: #171e29;
+}
+
+:is(button, label):hover {
+  border-color: var(--tertiary);
+  color: var(--tertiary);
+}
+
+:is(button, label):active {
+  filter: opacity(0.8);
+}
+
+
+
+
+
+@media (max-width:900px) {
+  main{
+    align-items: center;
+    flex-direction: column;
+  }
+}

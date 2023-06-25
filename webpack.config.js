@@ -7,6 +7,9 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "script.js",
   },
+  module: {
+    rules: [{ test: /\.css$/, use: ["style-loader", "css-loader"] }],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: "Knights travails",
@@ -14,4 +17,5 @@ module.exports = {
       template: "./src/index.html",
     }),
   ],
+  mode: "development",
 };
