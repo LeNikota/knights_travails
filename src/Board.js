@@ -5,8 +5,10 @@ class Queue {
     this.tail = 0;
   }
 
-  enqueue(value) {
-    this.values[this.tail++] = value;
+  enqueue(...valuesArr) {
+    for (const value of valuesArr) { 
+      this.values[this.tail++] = value;
+    }
   }
 
   dequeue() {
@@ -88,34 +90,29 @@ class Board {
 
   findPath() {
     if (this.start == null || this.end == null) return;
-    if (this.tree == null) this.buildTree(); // Build the tree if it's not already built
+    if (this.tree == null) this.buildTree();
   
-    let targetNode = null;
     const queue = new Queue();
     queue.enqueue(this.tree);
-    
-    exit: while (!queue.isEmpty) {
-      let currentNode = queue.dequeue();
-      for (const move of currentNode.moves) {
-        if (this.end[0] === move.square[0] && this.end[1] === move.square[1]) {
-          targetNode = currentNode;
-          break exit;
-        }
-        
-        queue.enqueue(move);
+  
+    let targetNode = null;
+    while (!queue.isEmpty) {
+      const node = queue.dequeue();
+      if (this.end[0] === node.square[0] && this.end[1] === node.square[1]) {
+        targetNode = node;
+        break;
       }
+      
+      if(node.moves.length !== 0) queue.enqueue(...node.moves);
     }
-    
-    if (targetNode) {
-      const path = [];
-      while (targetNode !== null) {
-        path.unshift(targetNode.square);
-        targetNode = targetNode.previous;
-      }
-      return path;
+  
+    const path = [];
+    while (targetNode !== null) {
+      path.unshift(targetNode.square);
+      targetNode = targetNode.previous;
     }
-    
-    return null; // Return null if no path is found
+  
+    return path;
   }  
 
   setPosition(start, end) {
