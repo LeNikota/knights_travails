@@ -23,20 +23,18 @@ function handleSquareClick({ target }) {
 }
 
 function handleControlsClick({ target }) {
-  if (target.id === "static") {
-    if (isRenderedDynamically) {
-      removeDynamicRendering();
-    }
-  } else if (target.id === "dynamic") {
+  const { id } = target;
+
+  if (id === "static") {
+    removeDynamicRendering();
+  } else if (id === "dynamic" && isStartSet) {
     toggleDynamicRendering();
-  } else if (target.id === "clear") {
+  } else if (id === "clear") {
     reset();
   }
 }
 
 function toggleDynamicRendering() {
-  if (!isStartSet) return;
-
   if (!isRenderedDynamically) {
     dom.chessBoard.childNodes.forEach((square) =>
       square.addEventListener("mouseover", renderKnightPathDynamically)
