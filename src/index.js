@@ -40,8 +40,8 @@ function handleControlsClick({ target }) {
         square.removeEventListener("mouseover", renderKnightPathDynamically)
       );
       isRenderedDynamically = false;
+      isEndSet = true;
     }
-      
     return;
   }
   if (target.id === "dynamic") {
@@ -96,6 +96,7 @@ function renderKnightPathDynamically({ target }) {
 
 dom.buildChessBoard(handleSquareClick);
 dom.controls.addEventListener("click", handleControlsClick);
+
 
 // user prettier and commit
 // Read all comments everywhere search for // or /*
