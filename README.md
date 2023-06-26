@@ -1,7 +1,7 @@
 # Knights travails
-[Online preview]()
+[Online preview](https://lenikota.github.io/knights_travails/)
 
-## Board Class 
+## Board Class
 
 The `Board` class represents a chessboard and provides methods for finding a path for a knight from a starting position to an ending position on the board.
 
