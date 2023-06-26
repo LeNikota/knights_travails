@@ -11,44 +11,57 @@ function handleSquareClick({target}) {
   const x = +target.dataset.x;
   const y = +target.dataset.y;
 
-  if(isStartSet && isEndSet) {
-    isStartSet = false;
-    isEndSet = false;
-    
-    dom.clearBoard()
-    board.reset()
-  }
-  if(!isStartSet){
-    dom.placeKnightAt([x, y]);
-    board.setStart([x, y])
-
-    isStartSet = true;
-    return;
-  }
-
   if(dom.knightStaticButton.checked){
-    board.setEnd([x,y]);
-    const path = board.findPath();
-    dom.renderKnightPath(path);
-    isEndSet = true;
-    return;
+    if(isStartSet && isEndSet) {
+      isStartSet = false;
+      isEndSet = false;
+      
+      dom.clearBoard()
+      board.reset()
+    }
+    if(!isStartSet){
+      dom.placeKnightAt([x, y]);
+      board.setStart([x, y])
+  
+      isStartSet = true;
+    } else {
+      board.setEnd([x,y]);
+      const path = board.findPath();
+      dom.renderKnightPath(path);
+      isEndSet = true;
+    }
   }
 }
 
-function handleDynamicButtonClick() {
-  if (!isRenderedDynamically) 
-    dom.chessBoard.childNodes.forEach(square => square.addEventListener('mouseover', renderKnightPathDynamically))
-  else  
-  dom.chessBoard.childNodes.forEach(square => square.removeEventListener('mouseover', renderKnightPathDynamically))
+function handleControlsClick({target}) {
+  if (target.id === 'dynamic') {
+    setupRenderDynamically()
+    return;
+  }
+  if (target.id === 'clear') {
+    reset()
+  }
 }
 
-function handleResetClick() {
+function setupRenderDynamically() {
+  if(!isStartSet) return;
+  
+  if (!isRenderedDynamically) dom.chessBoard.childNodes.forEach(square => square.addEventListener('mouseover', renderKnightPathDynamically))
+  else dom.chessBoard.childNodes.forEach(square => square.removeEventListener('mouseover', renderKnightPathDynamically))
+  isRenderedDynamically = !isRenderedDynamically;
+}
+
+function reset() {
   isStartSet = false;
   isEndSet = false;
   dom.knightStaticButton.checked = false;
   dom.knightDynamicButton.checked = false;
   dom.clearBoard();
   board.reset()
+  if(isRenderedDynamically){
+    dom.chessBoard.childNodes.forEach(square => square.removeEventListener('mouseover', renderKnightPathDynamically))
+    isRenderedDynamically = false;
+  }
 }
 
 function renderKnightPathDynamically({target}) {
@@ -64,8 +77,7 @@ function renderKnightPathDynamically({target}) {
 }
 
 dom.buildChessBoard(handleSquareClick)
-dom.knightDynamicButton.addEventListener('click', handleDynamicButtonClick)
-dom.clearButton.addEventListener('click', handleResetClick)
+dom.controls.addEventListener('click', handleControlsClick)
 
 //user prettier and commit
 // Read all comments everywhere search for // or /*

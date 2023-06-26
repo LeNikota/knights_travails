@@ -1,7 +1,7 @@
 const chessBoard = document.querySelector(".chess-board");
-const knightStaticButton = document.querySelector(".controls-knight__static");
+const controls = document.querySelector(".controls");
+const knightStaticButton = document.querySelector(".controls-knight__static"); //delete them all
 const knightDynamicButton = document.querySelector(".controls-knight__dynamic");
-const clearButton = document.querySelector(".controls-knight__clear");
 
 const squareArr = [...Array(8)].map(() => Array(8));
 
@@ -37,7 +37,7 @@ function clearBoard(){
 }
 
 function placeKnightAt([x, y]) {
-  squareArr[x][y].textContent = '♞';
+  squareArr[x][y].textContent = '♞'; // instead of symbol place image
 }
 
 function renderKnightPath(path) {
@@ -111,4 +111,4 @@ function renderKnightPath(path) {
 }
 
 // Ask someone can this code be optimized
-export { buildChessBoard, placeKnightAt, renderKnightPath, clearBoard,  knightStaticButton, knightDynamicButton, clearButton, chessBoard};
+export { buildChessBoard, placeKnightAt, renderKnightPath, clearBoard,  knightStaticButton, knightDynamicButton, chessBoard, controls};
