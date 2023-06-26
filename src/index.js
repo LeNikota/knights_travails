@@ -11,25 +11,14 @@ function handleSquareClick({ target }) {
   const x = +target.dataset.x;
   const y = +target.dataset.y;
 
-  if (dom.knightStaticButton.checked) {
-    if (isStartSet && isEndSet) {
-      isStartSet = false;
-      isEndSet = false;
+  if (!dom.knightStaticButton.checked) return;
 
-      dom.clearBoard();
-      board.reset();
-    }
-    if (!isStartSet) {
-      dom.placeKnightAt([x, y]);
-      board.setStart([x, y]);
-
-      isStartSet = true;
-    } else {
-      board.setEnd([x, y]);
-      const path = board.findPath();
-      dom.renderKnightPath(path);
-      isEndSet = true;
-    }
+  if (isStartSet && isEndSet) {
+    reset();
+  } else if (!isStartSet) {
+    setStartKnight([x, y]);
+  } else {
+    setEndKnight([x, y]);
   }
 }
 
@@ -38,15 +27,9 @@ function handleControlsClick({ target }) {
     if (isRenderedDynamically) {
       removeDynamicRendering();
     }
-    return;
-  }
-
-  if (target.id === "dynamic") {
+  } else if (target.id === "dynamic") {
     toggleDynamicRendering();
-    return;
-  }
-
-  if (target.id === "clear") {
+  } else if (target.id === "clear") {
     reset();
   }
 }
@@ -58,14 +41,11 @@ function toggleDynamicRendering() {
     dom.chessBoard.childNodes.forEach((square) =>
       square.addEventListener("mouseover", renderKnightPathDynamically)
     );
+    isRenderedDynamically = true;
   } else {
-    dom.chessBoard.childNodes.forEach((square) =>
-      square.removeEventListener("mouseover", renderKnightPathDynamically)
-    );
-    dom.knightDynamicButton.checked = false;
+    removeDynamicRendering();
   }
 
-  isRenderedDynamically = !isRenderedDynamically;
   isEndSet = true;
 }
 
@@ -75,6 +55,7 @@ function removeDynamicRendering() {
   );
 
   isRenderedDynamically = false;
+  dom.knightDynamicButton.checked = false;
 }
 
 function reset() {
@@ -87,6 +68,19 @@ function reset() {
   removeDynamicRendering();
 }
 
+function setStartKnight(position) {
+  dom.placeKnightAt(position);
+  board.setStart(position);
+  isStartSet = true;
+}
+
+function setEndKnight(position) {
+  board.setEnd(position);
+  const path = board.findPath();
+  dom.renderKnightPath(path);
+  isEndSet = true;
+}
+
 function renderKnightPathDynamically({ target }) {
   const x = +target.dataset.x;
   const y = +target.dataset.y;
@@ -94,16 +88,8 @@ function renderKnightPathDynamically({ target }) {
   dom.clearBoard();
   dom.placeKnightAt(board.start);
   board.reset();
-  board.setEnd([x, y]);
-  const path = board.findPath();
-  dom.renderKnightPath(path);
+  setEndKnight([x, y]);
 }
 
 dom.buildChessBoard(handleSquareClick);
 dom.controls.addEventListener("click", handleControlsClick);
-
-
-
-// user prettier and commit
-// Read all comments everywhere search for // or /*
-// remove all left console.log()s everywhere
