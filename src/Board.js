@@ -112,11 +112,11 @@ class Board {
   }
   
   reset(){
-    this.start = null;
-    this.end = null;
     this.tree = {};
     this.board = [...Array(8)].map(() => Array(8).fill(0));
   }
 }
+
+//refactor the logic first it builds the tree and than using that tree just search the knight path, don't build the tree again
 
 export default Board;

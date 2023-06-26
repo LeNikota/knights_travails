@@ -3,8 +3,6 @@ const knightStaticButton = document.querySelector(".controls-knight__static");
 const knightDynamicButton = document.querySelector(".controls-knight__dynamic");
 const clearButton = document.querySelector(".controls-knight__clear");
 
-clearButton.addEventListener('click', handleResetClick)
-
 const squareArr = [...Array(8)].map(() => Array(8));
 
 function buildChessBoard(handleSquareClick) {
@@ -32,11 +30,6 @@ function buildChessBoard(handleSquareClick) {
     squareArr[x][y] = square;
     chessBoard.append(square);
   }
-}
-
-function handleResetClick() {
-  knightStaticButton.checked = false;
-  knightDynamicButton.checked = false;
 }
 
 function clearBoard(){
@@ -118,4 +111,4 @@ function renderKnightPath(path) {
 }
 
 // Ask someone can this code be optimized
-export { buildChessBoard, placeKnightAt, renderKnightPath, clearBoard,  knightStaticButton, knightDynamicButton};
+export { buildChessBoard, placeKnightAt, renderKnightPath, clearBoard,  knightStaticButton, knightDynamicButton, clearButton, chessBoard};
