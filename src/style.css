@@ -44,6 +44,9 @@ h1 {
   width: 500px;
   height: 500px;
   box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
+
+  font-size: 3.2rem;
+  text-align: center;
 }
 
 .chess-board_square--white {
@@ -52,6 +55,14 @@ h1 {
 
 .chess-board_square--black {
   background-color: var(--secondary);
+}
+
+.square-selected{
+  background-color:rgb(140, 140, 140);
+}
+
+.end-selected{
+  background-color: var(--tertiary);
 }
 
 /* Controls */
@@ -67,12 +78,18 @@ h1 {
   grid-column: span 2;
 }
 
+/* Button */
 input[type="radio"] {
   appearance: none;
   display: none;
 }
 
-/* Button */
+input[type="radio"]:checked + label{
+  color: var(--tertiary);
+  border-color: var(--tertiary);
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3) ;
+}
+
 button,
 label {
   background-color: var(--primary);
@@ -84,10 +101,6 @@ label {
   text-align: center;
   text-decoration: none;
   transition: all 0.3s;
-}
-
-:is(button, label):focus {
-  color: #171e29;
 }
 
 :is(button, label):hover {

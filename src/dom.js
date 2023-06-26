@@ -1,13 +1,13 @@
 const chessBoard = document.querySelector(".chess-board");
-const setKnightStaticButton = document.querySelector(".controls-knight__static");
-const setKnightDynamicButton = document.querySelector(".controls-knight__dynamic");
+const knightStaticButton = document.querySelector(".controls-knight__static");
+const knightDynamicButton = document.querySelector(".controls-knight__dynamic");
 const clearButton = document.querySelector(".controls-knight__clear");
 
-setKnightDynamicButton.addEventListener('click', handleStaticClick)
-setKnightStaticButton.addEventListener('click', handleDynamicClick)
 clearButton.addEventListener('click', handleClearClick)
 
-function buildChessBoard() {
+const squareArr = [];
+
+function buildChessBoard(handleSquareClick) {
   //ask someone about could it be built better (optimized)
   let switchPattern = false;
   for (let i = 0; i < 64; i++) {
@@ -26,27 +26,43 @@ function buildChessBoard() {
     square.classList.add(className);
     square.addEventListener("click", handleSquareClick);
     chessBoard.append(square);
+    squareArr.push(square);
   }
-}
-
-function handleSquareClick() {
-  //do something when clicked
-}
-
-function handleStaticClick() {
   
+  handleSquareClick()
 }
 
-function handleDynamicClick() {
+function addEventListenerOnSquareClick(staticCallback, dynamicCallback) {  
+  function handleSquareClick(staticCallback, dynamicCallback) {
+    if(knightStaticButton.checked){
+      staticCallback();
+      return;
+    }
+    if(knightDynamicButton.checked){
+      dynamicCallback();
+      return;
+    }
+  }
   
+  buildChessBoard(handleSquareClick.bind(null, staticCallback, dynamicCallback));
 }
 
 function handleClearClick() {
+  knightStaticButton.checked = false;
+  knightDynamicButton.checked = false;
+}
+
+function placeKnightAt([x, y]) {
+  squareArr[x * 8 + y].textContent = '♞';
+  squareArr[x * 8 + y].classList.add('square-selected')
+}
+
+function placeEndAt([x, y]) {
+  squareArr[x * 8 + y].classList.add('end-selected')
+}
+
+function renderKnightPath(path) {
   
 }
 
-function init() {
-  buildChessBoard();
-}
-
-export { init };
+export { addEventListenerOnSquareClick, placeKnightAt, placeEndAt, renderKnightPath };

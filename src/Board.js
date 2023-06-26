@@ -109,6 +109,4 @@ class Board {
   }
 }
 
-const board = new Board([0, 0],[0, 7]);
-console.log(board.findPath());
-console.log(board.findPath());
+export default Board;
