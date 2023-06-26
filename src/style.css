@@ -34,7 +34,7 @@ h1 {
   font-weight: normal;
 }
 
-.chess-board_container{
+.chess-board_container {
   margin-top: var(--margin-top);
 }
 
@@ -49,7 +49,7 @@ h1 {
   color: rgb(239, 68, 68);
 }
 
-.chess-board > *{
+.chess-board > * {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -82,10 +82,10 @@ input[type="radio"] {
   display: none;
 }
 
-input[type="radio"]:checked + label{
+input[type="radio"]:checked + label {
   color: var(--tertiary);
   border-color: var(--tertiary);
-  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3) ;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, 0.3);
 }
 
 button,
@@ -110,12 +110,8 @@ label {
   filter: opacity(0.8);
 }
 
-
-
-
-
-@media (max-width:900px) {
-  main{
+@media (max-width: 900px) {
+  main {
     align-items: center;
     flex-direction: column;
   }

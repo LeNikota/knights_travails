@@ -24,20 +24,20 @@ function buildChessBoard(handleSquareClick) {
     }
 
     square.classList.add(className);
-    square.setAttribute('data-x', x);
-    square.setAttribute('data-y', y);   
+    square.setAttribute("data-x", x);
+    square.setAttribute("data-y", y);
     square.addEventListener("click", handleSquareClick);
     squareArr[x][y] = square;
     chessBoard.append(square);
   }
 }
 
-function clearBoard(){
-  squareArr.flat().forEach(square => square.textContent = '')
+function clearBoard() {
+  squareArr.flat().forEach((square) => (square.textContent = ""));
 }
 
 function placeKnightAt([x, y]) {
-  squareArr[x][y].textContent = '♞'; // instead of symbol place image
+  squareArr[x][y].textContent = "♞"; // instead of symbol place image
 }
 
 function renderKnightPath(path) {
@@ -55,60 +55,69 @@ function renderKnightPath(path) {
       squareArr[nextX][nextY].textContent = '✕';
     */
 
-    if(nextX - curX === 2){
-      if(nextX - curX > 0){
+    if (nextX - curX === 2) {
+      if (nextX - curX > 0) {
         while (curX !== nextX) {
-          curX++
-          squareArr[curX][curY].textContent = '●';
+          curX++;
+          squareArr[curX][curY].textContent = "●";
         }
       }
-      if(nextY - curY > 0){
+      if (nextY - curY > 0) {
         while (curY !== nextY) {
-          curY++
-          squareArr[curX][curY].textContent = '●';
+          curY++;
+          squareArr[curX][curY].textContent = "●";
         }
       }
       if (nextX - curX < 0) {
         while (curX !== nextX) {
-          curX--
-          squareArr[curX][curY].textContent = '●';
+          curX--;
+          squareArr[curX][curY].textContent = "●";
         }
       }
       if (nextY - curY < 0) {
         while (curY !== nextY) {
-          curY--
-          squareArr[curX][curY].textContent = '●';
+          curY--;
+          squareArr[curX][curY].textContent = "●";
         }
       }
     } else {
-      if(nextY - curY > 0){
+      if (nextY - curY > 0) {
         while (curY !== nextY) {
-          curY++
-          squareArr[curX][curY].textContent = '●';
+          curY++;
+          squareArr[curX][curY].textContent = "●";
         }
       }
-      if(nextX - curX > 0){
+      if (nextX - curX > 0) {
         while (curX !== nextX) {
-          curX++
-          squareArr[curX][curY].textContent = '●';
+          curX++;
+          squareArr[curX][curY].textContent = "●";
         }
       }
       if (nextX - curX < 0) {
         while (curX !== nextX) {
-          curX--
-          squareArr[curX][curY].textContent = '●';
+          curX--;
+          squareArr[curX][curY].textContent = "●";
         }
       }
       if (nextY - curY < 0) {
         while (curY !== nextY) {
-          curY--
-          squareArr[curX][curY].textContent = '●';
+          curY--;
+          squareArr[curX][curY].textContent = "●";
         }
       }
     }
-  squareArr[nextX][nextY].textContent = '✕'
+    squareArr[nextX][nextY].textContent = "✕";
   }
 }
 
 // Ask someone can this code be optimized
-export { buildChessBoard, placeKnightAt, renderKnightPath, clearBoard,  knightStaticButton, knightDynamicButton, chessBoard, controls};
+export {
+  buildChessBoard,
+  placeKnightAt,
+  renderKnightPath,
+  clearBoard,
+  knightStaticButton,
+  knightDynamicButton,
+  chessBoard,
+  controls,
+};

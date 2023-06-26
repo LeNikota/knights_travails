@@ -15,7 +15,7 @@ class Queue {
     return value;
   }
 
-  clear(){
+  clear() {
     this.values = {};
     this.head = 0;
     this.tail = 0;
@@ -37,7 +37,7 @@ class Node {
 class Board {
   constructor(start = null, end = null) {
     this.start = start;
-    this.end = end ;
+    this.end = end;
     this.tree = {};
     this.board = [...Array(8)].map(() => Array(8).fill(0)); // contains places that the knight has already visited
     this.possibleMoves = [
@@ -57,7 +57,13 @@ class Board {
     for (let i = 0; i < 8; i++) {
       const newX = x + this.possibleMoves[i][0];
       const newY = y + this.possibleMoves[i][1];
-      if (0 <= newX && newX <= 7 && 0 <= newY && newY <= 7 && this.board[newX][newY] != 1) {
+      if (
+        0 <= newX &&
+        newX <= 7 &&
+        0 <= newY &&
+        newY <= 7 &&
+        this.board[newX][newY] != 1
+      ) {
         moves.push(new Node([newX, newY], previous));
         this.board[newX][newY] = 1;
       }
@@ -68,7 +74,7 @@ class Board {
 
   findPath() {
     if (this.start == null && this.end == null) return;
-    if(Object.keys(this.tree).length != 0 ) this.reset(); // Delete and optimize don't evaluate on each invocation
+    if (Object.keys(this.tree).length != 0) this.reset(); // Delete and optimize don't evaluate on each invocation
 
     this.tree = new Node(this.start);
     const queue = new Queue();
@@ -77,8 +83,8 @@ class Board {
     while (!queue.isEmpty) {
       const node = queue.dequeue();
       node.moves = this.getPossibleMoves(node.square[0], node.square[1], node);
-      for (const move of node.moves){
-        if(this.end[0] == move.square[0] && this.end[1] == move.square[1]) {
+      for (const move of node.moves) {
+        if (this.end[0] == move.square[0] && this.end[1] == move.square[1]) {
           currentSquare = move;
           queue.clear();
           break;
@@ -87,7 +93,7 @@ class Board {
         }
       }
     }
-    
+
     const path = [];
     while (currentSquare != null) {
       path.unshift(currentSquare.square);
@@ -97,21 +103,21 @@ class Board {
     return path;
   }
 
-  setPosition(start, end){
+  setPosition(start, end) {
     this.start = start;
     this.end = end;
     this.reset();
   }
 
-  setStart(start){
+  setStart(start) {
     this.start = start;
   }
-  
-  setEnd(end){
+
+  setEnd(end) {
     this.end = end;
   }
-  
-  reset(){
+
+  reset() {
     this.tree = {};
     this.board = [...Array(8)].map(() => Array(8).fill(0));
   }
