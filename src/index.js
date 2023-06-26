@@ -8,9 +8,11 @@ let isEndSet = false;
 
 function handleSquareClick({target}) {
   if(isStartSet && isEndSet) {
-    // isStartSet = false;
-    // isEndSet = false;
-    return;
+    isStartSet = false;
+    isEndSet = false;
+    
+    dom.clearBoard()
+    board.reset()
   }
 
   const x = +target.dataset.x;
@@ -18,14 +20,13 @@ function handleSquareClick({target}) {
 
   if(dom.knightStaticButton.checked){
     if(isStartSet){
-      dom.setEnd([x,y]);
       board.setEnd([x,y]);
       const path = board.findPath();
       dom.renderKnightPath(path);
 
       isEndSet = true;
     } else {
-      dom.setKnightStart([x, y]);
+      dom.placeKnightAt([x, y]);
       board.setStart([x, y])
 
       isStartSet = true;
@@ -41,3 +42,6 @@ function handleSquareClick({target}) {
 }
 
 dom.buildChessBoard(handleSquareClick)
+
+
+// Read all comments everywhere search for // or /*

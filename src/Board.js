@@ -112,6 +112,8 @@ class Board {
   }
   
   reset(){
+    this.start = null;
+    this.end = null;
     this.tree = {};
     this.board = [...Array(8)].map(() => Array(8).fill(0));
   }

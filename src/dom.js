@@ -3,7 +3,7 @@ const knightStaticButton = document.querySelector(".controls-knight__static");
 const knightDynamicButton = document.querySelector(".controls-knight__dynamic");
 const clearButton = document.querySelector(".controls-knight__clear");
 
-clearButton.addEventListener('click', handleClearClick)
+clearButton.addEventListener('click', handleResetClick)
 
 const squareArr = [...Array(8)].map(() => Array(8));
 
@@ -34,18 +34,17 @@ function buildChessBoard(handleSquareClick) {
   }
 }
 
-function handleClearClick() {
+function handleResetClick() {
   knightStaticButton.checked = false;
   knightDynamicButton.checked = false;
 }
 
-function setKnightStart([x, y]) {
-  squareArr[x][y].textContent = '♞';
-  squareArr[x][y].classList.add('square-selected')
+function clearBoard(){
+  squareArr.flat().forEach(square => square.textContent = '')
 }
 
-function setEnd([x, y]) {
-  squareArr[x][y].classList.add('end-selected')
+function placeKnightAt([x, y]) {
+  squareArr[x][y].textContent = '♞';
 }
 
 function renderKnightPath(path) {
@@ -115,9 +114,8 @@ function renderKnightPath(path) {
       }
     }
   squareArr[nextX][nextY].textContent = '✕'
-  debugger
   }
 }
 
 // Ask someone can this code be optimized
-export { buildChessBoard, setKnightStart, setEnd, renderKnightPath,  knightStaticButton, knightDynamicButton};
+export { buildChessBoard, placeKnightAt, renderKnightPath, clearBoard,  knightStaticButton, knightDynamicButton};

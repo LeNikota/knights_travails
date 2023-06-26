@@ -63,14 +63,6 @@ h1 {
   background-color: var(--secondary);
 }
 
-.square-selected{
-  background-color:rgb(140, 140, 140);
-}
-
-.end-selected{
-  background-color: var(--tertiary);
-}
-
 /* Controls */
 .controls {
   display: grid;
