@@ -38,7 +38,7 @@ class Board {
   constructor(start = null, end = null) {
     this.start = start;
     this.end = end;
-    this.tree = {};
+    this.tree = null;
     this.board = [...Array(8)].map(() => Array(8).fill(0)); // contains places that the knight has already visited
     this.possibleMoves = [
       [2, 1],
@@ -58,11 +58,9 @@ class Board {
       const newX = x + this.possibleMoves[i][0];
       const newY = y + this.possibleMoves[i][1];
       if (
-        0 <= newX &&
-        newX <= 7 &&
-        0 <= newY &&
-        newY <= 7 &&
-        this.board[newX][newY] != 1
+        (0 <= newX && newX <= 7) &&
+        (0 <= newY && newY <= 7) &&
+        this.board[newX][newY] !== 1
       ) {
         moves.push(new Node([newX, newY], previous));
         this.board[newX][newY] = 1;
@@ -72,36 +70,53 @@ class Board {
     return moves;
   }
 
-  findPath() {
-    if (this.start == null && this.end == null) return;
-    if (Object.keys(this.tree).length != 0) this.reset(); // Delete and optimize don't evaluate on each invocation
+  buildTree() {
+    if (this.start == null || this.end == null) return;
+    if (this.tree != null) return; // If the tree is already built, no need to rebuild
 
     this.tree = new Node(this.start);
     const queue = new Queue();
     queue.enqueue(this.tree);
-    let currentSquare;
     while (!queue.isEmpty) {
       const node = queue.dequeue();
       node.moves = this.getPossibleMoves(node.square[0], node.square[1], node);
       for (const move of node.moves) {
-        if (this.end[0] == move.square[0] && this.end[1] == move.square[1]) {
-          currentSquare = move;
-          queue.clear();
-          break;
-        } else {
-          queue.enqueue(move);
-        }
+        queue.enqueue(move);
       }
     }
-
-    const path = [];
-    while (currentSquare != null) {
-      path.unshift(currentSquare.square);
-      currentSquare = currentSquare.previous;
-    }
-
-    return path;
   }
+
+  findPath() {
+    if (this.start == null || this.end == null) return;
+    if (this.tree == null) this.buildTree(); // Build the tree if it's not already built
+  
+    let targetNode = null;
+    const queue = new Queue();
+    queue.enqueue(this.tree);
+    
+    exit: while (!queue.isEmpty) {
+      let currentNode = queue.dequeue();
+      for (const move of currentNode.moves) {
+        if (this.end[0] === move.square[0] && this.end[1] === move.square[1]) {
+          targetNode = currentNode;
+          break exit;
+        }
+        
+        queue.enqueue(move);
+      }
+    }
+    
+    if (targetNode) {
+      const path = [];
+      while (targetNode !== null) {
+        path.unshift(targetNode.square);
+        targetNode = targetNode.previous;
+      }
+      return path;
+    }
+    
+    return null; // Return null if no path is found
+  }  
 
   setPosition(start, end) {
     this.start = start;
@@ -111,6 +126,7 @@ class Board {
 
   setStart(start) {
     this.start = start;
+    this.reset();
   }
 
   setEnd(end) {
@@ -118,11 +134,9 @@ class Board {
   }
 
   reset() {
-    this.tree = {};
+    this.tree = null;
     this.board = [...Array(8)].map(() => Array(8).fill(0));
   }
 }
-
-//refactor the logic first it builds the tree and than using that tree just search the knight path, don't build the tree again
 
 export default Board;

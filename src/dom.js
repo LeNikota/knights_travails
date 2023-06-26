@@ -37,7 +37,7 @@ function clearBoard() {
 }
 
 function placeKnightAt([x, y]) {
-  squareArr[x][y].textContent = "♞"; // instead of symbol place image
+  squareArr[x][y].textContent = "♞";
 }
 
 function renderKnightPath(path) {
