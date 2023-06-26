@@ -65,11 +65,11 @@ function reset() {
 }
 
 function renderKnightPathDynamically({target}) {
-  console.log('rendered: ', target);
   const x = +target.dataset.x;
   const y = +target.dataset.y;
 
   dom.clearBoard();
+  dom.placeKnightAt(board.start)
   board.reset()
   board.setEnd([x,y])
   const path = board.findPath()
