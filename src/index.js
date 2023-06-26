@@ -2,13 +2,38 @@ import './style.css';
 import * as dom from './dom.js';
 import Board from './Board.js';
 
-// const board = new Board();
+const board = new Board();
+let isStartSet = false;
+let isEndSet = false;
 
-function handleSquareClick() {
-  if(dom.knightStaticButton.checked){
-    console.log(1);
+function handleSquareClick({target}) {
+  if(isStartSet && isEndSet) {
+    // isStartSet = false;
+    // isEndSet = false;
     return;
   }
+
+  const x = +target.dataset.x;
+  const y = +target.dataset.y;
+
+  if(dom.knightStaticButton.checked){
+    if(isStartSet){
+      dom.setEnd([x,y]);
+      board.setEnd([x,y]);
+      const path = board.findPath();
+      dom.renderKnightPath(path);
+
+      isEndSet = true;
+    } else {
+      dom.setKnightStart([x, y]);
+      board.setStart([x, y])
+
+      isStartSet = true;
+    }
+
+    return;
+  }
+
   if(dom.knightDynamicButton.checked){
     console.log(2);
     return;
@@ -16,5 +41,3 @@ function handleSquareClick() {
 }
 
 dom.buildChessBoard(handleSquareClick)
-dom.placeKnightAt([3,3])
-dom.placeEndAt([5,5])

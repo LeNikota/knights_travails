@@ -5,7 +5,7 @@ const clearButton = document.querySelector(".controls-knight__clear");
 
 clearButton.addEventListener('click', handleClearClick)
 
-const squareArr = [];
+const squareArr = [...Array(8)].map(() => Array(8));
 
 function buildChessBoard(handleSquareClick) {
   //ask someone about could it be built better (optimized)
@@ -13,6 +13,8 @@ function buildChessBoard(handleSquareClick) {
   for (let i = 0; i < 64; i++) {
     const square = document.createElement("div");
     let className;
+    const x = Math.floor(i / 8);
+    const y = i % 8;
 
     if (i % 8 === 0) switchPattern = !switchPattern;
     if (switchPattern) {
@@ -24,9 +26,11 @@ function buildChessBoard(handleSquareClick) {
     }
 
     square.classList.add(className);
+    square.setAttribute('data-x', x);
+    square.setAttribute('data-y', y);   
     square.addEventListener("click", handleSquareClick);
+    squareArr[x][y] = square;
     chessBoard.append(square);
-    squareArr.push(square);
   }
 }
 
@@ -35,17 +39,85 @@ function handleClearClick() {
   knightDynamicButton.checked = false;
 }
 
-function placeKnightAt([x, y]) {
-  squareArr[x * 8 + y].textContent = '♞';
-  squareArr[x * 8 + y].classList.add('square-selected')
+function setKnightStart([x, y]) {
+  squareArr[x][y].textContent = '♞';
+  squareArr[x][y].classList.add('square-selected')
 }
 
-function placeEndAt([x, y]) {
-  squareArr[x * 8 + y].classList.add('end-selected')
+function setEnd([x, y]) {
+  squareArr[x][y].classList.add('end-selected')
 }
 
 function renderKnightPath(path) {
-  
+  console.log(path); //delete this
+  for (let i = 0; i < path.length - 1; i++) {
+    const currentSquare = path[i];
+    const nextSquare = path[i + 1];
+    let [curX, curY] = currentSquare;
+    const [nextX, nextY] = nextSquare;
+
+    /* don't use while loops just go about this like so
+    
+      squareArr[curX][curY+1].textContent = '●';
+      squareArr[curX][curY+2].textContent = '●';
+      squareArr[nextX][nextY].textContent = '✕';
+    */
+
+    if(nextX - curX === 2){
+      if(nextX - curX > 0){
+        while (curX !== nextX) {
+          curX++
+          squareArr[curX][curY].textContent = '●';
+        }
+      }
+      if(nextY - curY > 0){
+        while (curY !== nextY) {
+          curY++
+          squareArr[curX][curY].textContent = '●';
+        }
+      }
+      if (nextX - curX < 0) {
+        while (curX !== nextX) {
+          curX--
+          squareArr[curX][curY].textContent = '●';
+        }
+      }
+      if (nextY - curY < 0) {
+        while (curY !== nextY) {
+          curY--
+          squareArr[curX][curY].textContent = '●';
+        }
+      }
+    } else {
+      if(nextY - curY > 0){
+        while (curY !== nextY) {
+          curY++
+          squareArr[curX][curY].textContent = '●';
+        }
+      }
+      if(nextX - curX > 0){
+        while (curX !== nextX) {
+          curX++
+          squareArr[curX][curY].textContent = '●';
+        }
+      }
+      if (nextX - curX < 0) {
+        while (curX !== nextX) {
+          curX--
+          squareArr[curX][curY].textContent = '●';
+        }
+      }
+      if (nextY - curY < 0) {
+        while (curY !== nextY) {
+          curY--
+          squareArr[curX][curY].textContent = '●';
+        }
+      }
+    }
+  squareArr[nextX][nextY].textContent = '✕'
+  debugger
+  }
 }
 
-export { buildChessBoard, placeKnightAt, placeEndAt, renderKnightPath,  knightStaticButton, knightDynamicButton};
+// Ask someone can this code be optimized
+export { buildChessBoard, setKnightStart, setEnd, renderKnightPath,  knightStaticButton, knightDynamicButton};

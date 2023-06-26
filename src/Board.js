@@ -102,6 +102,14 @@ class Board {
     this.end = end;
     this.reset();
   }
+
+  setStart(start){
+    this.start = start;
+  }
+  
+  setEnd(end){
+    this.end = end;
+  }
   
   reset(){
     this.tree = {};
