@@ -28,23 +28,6 @@ function buildChessBoard(handleSquareClick) {
     chessBoard.append(square);
     squareArr.push(square);
   }
-  
-  handleSquareClick()
-}
-
-function addEventListenerOnSquareClick(staticCallback, dynamicCallback) {  
-  function handleSquareClick(staticCallback, dynamicCallback) {
-    if(knightStaticButton.checked){
-      staticCallback();
-      return;
-    }
-    if(knightDynamicButton.checked){
-      dynamicCallback();
-      return;
-    }
-  }
-  
-  buildChessBoard(handleSquareClick.bind(null, staticCallback, dynamicCallback));
 }
 
 function handleClearClick() {
@@ -65,4 +48,4 @@ function renderKnightPath(path) {
   
 }
 
-export { addEventListenerOnSquareClick, placeKnightAt, placeEndAt, renderKnightPath };
+export { buildChessBoard, placeKnightAt, placeEndAt, renderKnightPath,  knightStaticButton, knightDynamicButton};
