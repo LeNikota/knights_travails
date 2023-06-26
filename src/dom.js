@@ -41,69 +41,29 @@ function placeKnightAt([x, y]) {
 }
 
 function renderKnightPath(path) {
-  console.log(path); //delete this
   for (let i = 0; i < path.length - 1; i++) {
     const currentSquare = path[i];
     const nextSquare = path[i + 1];
     let [curX, curY] = currentSquare;
     const [nextX, nextY] = nextSquare;
-
-    /* don't use while loops just go about this like so
     
-      squareArr[curX][curY+1].textContent = '●';
-      squareArr[curX][curY+2].textContent = '●';
-      squareArr[nextX][nextY].textContent = '✕';
-    */
-
-    if (nextX - curX === 2) {
+    if (Math.abs(nextX - curX) === 2) {
       if (nextX - curX > 0) {
-        while (curX !== nextX) {
-          curX++;
-          squareArr[curX][curY].textContent = "●";
-        }
+        squareArr[curX + 1][curY].textContent = "●";
+        squareArr[curX + 2][curY].textContent = "●";
       }
-      if (nextY - curY > 0) {
-        while (curY !== nextY) {
-          curY++;
-          squareArr[curX][curY].textContent = "●";
-        }
-      }
-      if (nextX - curX < 0) {
-        while (curX !== nextX) {
-          curX--;
-          squareArr[curX][curY].textContent = "●";
-        }
-      }
-      if (nextY - curY < 0) {
-        while (curY !== nextY) {
-          curY--;
-          squareArr[curX][curY].textContent = "●";
-        }
+      else {
+        squareArr[curX - 1][curY].textContent = "●";
+        squareArr[curX - 2][curY].textContent = "●";
       }
     } else {
       if (nextY - curY > 0) {
-        while (curY !== nextY) {
-          curY++;
-          squareArr[curX][curY].textContent = "●";
-        }
+        squareArr[curX][curY + 1].textContent = "●";
+        squareArr[curX][curY + 2].textContent = "●";
       }
-      if (nextX - curX > 0) {
-        while (curX !== nextX) {
-          curX++;
-          squareArr[curX][curY].textContent = "●";
-        }
-      }
-      if (nextX - curX < 0) {
-        while (curX !== nextX) {
-          curX--;
-          squareArr[curX][curY].textContent = "●";
-        }
-      }
-      if (nextY - curY < 0) {
-        while (curY !== nextY) {
-          curY--;
-          squareArr[curX][curY].textContent = "●";
-        }
+      else {
+        squareArr[curX][curY - 1].textContent = "●";
+        squareArr[curX][curY - 2].textContent = "●";
       }
     }
     squareArr[nextX][nextY].textContent = "✕";
