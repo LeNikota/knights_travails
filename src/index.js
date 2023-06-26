@@ -35,36 +35,46 @@ function handleSquareClick({ target }) {
 
 function handleControlsClick({ target }) {
   if (target.id === "static") {
-    if (isRenderedDynamically){
-      dom.chessBoard.childNodes.forEach((square) =>
-        square.removeEventListener("mouseover", renderKnightPathDynamically)
-      );
-      isRenderedDynamically = false;
-      isEndSet = true;
+    if (isRenderedDynamically) {
+      removeDynamicRendering();
     }
     return;
   }
+
   if (target.id === "dynamic") {
-    setupRenderDynamically();
+    toggleDynamicRendering();
     return;
   }
+
   if (target.id === "clear") {
     reset();
   }
 }
 
-function setupRenderDynamically() {
+function toggleDynamicRendering() {
   if (!isStartSet) return;
 
-  if (!isRenderedDynamically)
+  if (!isRenderedDynamically) {
     dom.chessBoard.childNodes.forEach((square) =>
       square.addEventListener("mouseover", renderKnightPathDynamically)
     );
-  else
+  } else {
     dom.chessBoard.childNodes.forEach((square) =>
       square.removeEventListener("mouseover", renderKnightPathDynamically)
     );
+    dom.knightDynamicButton.checked = false;
+  }
+
   isRenderedDynamically = !isRenderedDynamically;
+  isEndSet = true;
+}
+
+function removeDynamicRendering() {
+  dom.chessBoard.childNodes.forEach((square) =>
+    square.removeEventListener("mouseover", renderKnightPathDynamically)
+  );
+
+  isRenderedDynamically = false;
 }
 
 function reset() {
@@ -74,12 +84,7 @@ function reset() {
   dom.knightDynamicButton.checked = false;
   dom.clearBoard();
   board.reset();
-  if (isRenderedDynamically) {
-    dom.chessBoard.childNodes.forEach((square) =>
-      square.removeEventListener("mouseover", renderKnightPathDynamically)
-    );
-    isRenderedDynamically = false;
-  }
+  removeDynamicRendering();
 }
 
 function renderKnightPathDynamically({ target }) {
@@ -96,6 +101,7 @@ function renderKnightPathDynamically({ target }) {
 
 dom.buildChessBoard(handleSquareClick);
 dom.controls.addEventListener("click", handleControlsClick);
+
 
 
 // user prettier and commit
