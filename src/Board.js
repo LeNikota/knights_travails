@@ -128,6 +128,7 @@ class Board {
 
   setEnd(end) {
     this.end = end;
+    this.reset();
   }
 
   reset() {
